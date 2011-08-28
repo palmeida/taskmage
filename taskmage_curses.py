@@ -31,25 +31,22 @@ def get_input(prompt_string):
     input_string = status_bar.getstr(0, len(prompt_string))
     return input_string
 
-def move_menu(window, smaxrow, pminrow, operation_string):
+def move(window, display_function, smaxrow, offset, operation_string):
     if len(items) < 2:
-        return pminrow
+        return offset
     operation = getattr(operator, operation_string)
     sminrow, smincol = window.getbegyx()
     y, x = curses.getsyx()
-    old_index = pminrow + y - sminrow
-    new_index = pminrow + operation(y, 1) - sminrow
+    old_index = offset + y - sminrow
+    new_index = offset + operation(y, 1) - sminrow
     if not 0 <= new_index < len(items):
-        pminrow = len(items) - smaxrow + sminrow - 1 if new_index < 0 else 0
-        pminrow = max(pminrow, 0)
+        offset = len(items) - smaxrow + sminrow - 1 if new_index < 0 else 0
+        offset = max(offset, 0)
         new_index = new_index % len(items)
     elif not sminrow <= operation(y, 1) <= smaxrow:
-        pminrow = operation(pminrow, 1)
-    new_item = items[new_index]
-    window.addstr(old_index, 0, str(items[old_index]))
-    window.addstr(new_index, 0, str(new_item), curses.A_REVERSE)
-    window.refresh(pminrow, 0, sminrow, smincol, smaxrow, screen_width)
-    return pminrow, new_item
+        offset = operation(offset, 1)
+    display_function(offset=offset, selected=new_index)
+    return offset
 
 
 def write_status(status):
@@ -88,11 +85,9 @@ def main(stdscr):
     while 1:
         c = task_pad.getkey()
         if c == 'j':
-            offset, item = move_menu(task_pad, task_endrow, offset, 'add')
-            show_description(item)
+            offset = move(task_pad, draw_tasks, task_endrow, offset, 'add')
         elif c == 'k':
-            offset, item = move_menu(task_pad, task_endrow, offset, 'sub')
-            show_description(item)
+            offset = move(task_pad, draw_tasks, task_endrow, offset, 'sub')
         elif c == 'a':
             offset, task = add_task()
         elif c == 'q':
