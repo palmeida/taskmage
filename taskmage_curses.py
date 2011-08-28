@@ -69,17 +69,18 @@ def draw_tasks(offset=0, selected=0):
         task_pad.addstr(*args)
     task_pad.move(selected, 0)
     task_pad.refresh(offset, 0, 0, 0, task_endrow, screen_width)
-    show_description(items[selected])
+    show_details(items[selected])
+    write_status("Task %s of %s" % (selected + 1, len(items)))
 
-def show_description(task):
+def show_details(task):
     y, x = curses.getsyx()
-    desc_win.clear()
+    details_win.clear()
     date = date_parser.parse(task.date)
-    desc_win.addstr(1, 0, date.strftime("%d/%m/%Y"))
-    desc_win.addstr(0, 0, task.summary, curses.A_BOLD)
-    desc_win.addstr(2, 0, task.description)
-    desc_win.addstr(3, 0, str(task.logged_time))
-    desc_win.refresh()
+    details_win.addstr(0, 0, date.strftime("%d/%m/%Y"))
+    details_win.addstr(1, 0, task.summary, curses.A_BOLD)
+    details_win.addstr(2, 0, task.description)
+    details_win.addstr(3, 0, str(task.logged_time))
+    details_win.refresh()
     stdscr.move(y, x)
     stdscr.refresh()
 
@@ -107,10 +108,10 @@ if __name__ == '__main__':
     status_bar = curses.newwin(1, screen_width, status_bar_row, 0)
     task_pad = curses.newpad(max(len(items), 1), screen_width - 1)
     task_endrow = 15
-    desc_win = curses.newwin(screen_height - task_endrow - 4, 
-                             screen_width, 
-                             task_endrow + 2,
-                             0)
+    details_win = curses.newwin(screen_height - task_endrow - 4, 
+                                screen_width, 
+                                task_endrow + 2,
+                                0)
     stdscr.hline(task_endrow + 1, 0, '=', screen_width)
     stdscr.hline(status_bar_row - 1, 0, '=', screen_width)
     stdscr.vline(0, screen_width - 1, '|', task_endrow + 1)
