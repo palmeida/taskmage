@@ -62,8 +62,12 @@ def draw_tasks(offset=0, selected=0):
         return 0
     task_pad.clear()
     for index, item in items.iteritems():
-        task_pad.addstr(index, 0, str(item))
-    task_pad.addstr(selected, 0, str(items[selected]), curses.A_REVERSE)
+        item = str(item).ljust(screen_width - 2)
+        args = [index, 0, item]
+        if index == selected:
+            args.append(curses.A_REVERSE)
+        task_pad.addstr(*args)
+    task_pad.move(selected, 0)
     task_pad.refresh(offset, 0, 0, 0, task_endrow, screen_width)
     show_description(items[selected])
 
@@ -109,5 +113,6 @@ if __name__ == '__main__':
                              0)
     stdscr.hline(task_endrow + 1, 0, '=', screen_width)
     stdscr.hline(status_bar_row - 1, 0, '=', screen_width)
+    stdscr.vline(0, screen_width - 1, '|', task_endrow + 1)
     curses.curs_set(0)
     curses.wrapper(main)
