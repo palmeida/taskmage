@@ -32,11 +32,6 @@ class TaskListCSV(object):
                                     task.date]))
                 fh.write('\n')
         
-    def list_tasks(self):
-        print "Index\tProject\tTask"
-        for index, task in self.tasks.iteritems():
-            line = '\t'.join([index, task[0], task[1]])
-            print line
 
 class Task(object):
     def __init__(self, 
