@@ -1,5 +1,8 @@
+#!/usr/bin/env python
+
 import curses
 import operator
+from dateutil import parser as date_parser
 
 from taskmage import Task, TaskListCSV
 
@@ -46,7 +49,7 @@ def move_menu(window, smaxrow, pminrow, operation_string):
     window.addstr(old_index, 0, str(items[old_index]))
     window.addstr(new_index, 0, str(new_item), curses.A_REVERSE)
     window.refresh(pminrow, 0, sminrow, smincol, smaxrow, screen_width)
-    return pminrow
+    return pminrow, new_item
 
 
 def write_status(status):
@@ -65,6 +68,19 @@ def draw_tasks(offset=0, selected=0):
         task_pad.addstr(index, 0, str(item))
     task_pad.addstr(selected, 0, str(items[selected]), curses.A_REVERSE)
     task_pad.refresh(offset, 0, 0, 0, task_endrow, screen_width)
+    show_description(items[selected])
+
+def show_description(task):
+    y, x = curses.getsyx()
+    desc_win.clear()
+    date = date_parser.parse(task.date)
+    desc_win.addstr(1, 0, date.strftime("%d/%m/%Y"))
+    desc_win.addstr(0, 0, task.summary, curses.A_BOLD)
+    desc_win.addstr(2, 0, task.description)
+    desc_win.addstr(3, 0, str(task.logged_time))
+    desc_win.refresh()
+    stdscr.move(y, x)
+    stdscr.refresh()
 
 def main(stdscr):
     draw_tasks()
@@ -72,9 +88,11 @@ def main(stdscr):
     while 1:
         c = task_pad.getkey()
         if c == 'j':
-            offset = move_menu(task_pad, task_endrow, offset, 'add')
+            offset, item = move_menu(task_pad, task_endrow, offset, 'add')
+            show_description(item)
         elif c == 'k':
-            offset = move_menu(task_pad, task_endrow, offset, 'sub')
+            offset, item = move_menu(task_pad, task_endrow, offset, 'sub')
+            show_description(item)
         elif c == 'a':
             offset, task = add_task()
         elif c == 'q':
@@ -86,8 +104,15 @@ if __name__ == '__main__':
     items = dict(zip(id_list, task_list.tasks))
     stdscr = curses.initscr()
     screen_height, screen_width = stdscr.getmaxyx()
-    status_bar = curses.newwin(1, screen_width, screen_height - 1, 0)
+    status_bar_row = screen_height - 1
+    status_bar = curses.newwin(1, screen_width, status_bar_row, 0)
     task_pad = curses.newpad(max(len(items), 1), screen_width - 1)
-    task_endrow = 20
+    task_endrow = 15
+    desc_win = curses.newwin(screen_height - task_endrow - 4, 
+                             screen_width, 
+                             task_endrow + 2,
+                             0)
+    stdscr.hline(task_endrow + 1, 0, '=', screen_width)
+    stdscr.hline(status_bar_row - 1, 0, '=', screen_width)
     curses.curs_set(0)
     curses.wrapper(main)
