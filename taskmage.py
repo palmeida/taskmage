@@ -23,16 +23,18 @@ class TaskListCSV(object):
                 self.tasks.append(task)
 
     def filter_tasks(self, **kwargs):
+        tasks = self.tasks
         filtered_tasks = set()
         for attr, values in kwargs.iteritems():
-            for task in self.tasks:
+            for task in tasks:
                 try:
                     task_attr = getattr(task, attr)
                 except AttributeError:
                     break
                 if task_attr in values:
                     filtered_tasks.add(task)
-            self.tasks = list(filtered_tasks)
+            tasks = list(filtered_tasks)
+        return tasks
         
             
     def write_tasks(self):
