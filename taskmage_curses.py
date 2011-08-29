@@ -14,7 +14,7 @@ def add_task():
     list, with the newly added task selected.
 
     """
-    # Curses opetion to show what is being typed
+    # Curses option to show what is being typed
     curses.echo()
     curses.curs_set(1)
     # Get input
@@ -66,10 +66,7 @@ def done_task(offset):
         # Adjust offset if y is in the first row of the visible pad
         if y == sminrow:
             offset -= 1
-    # Filter task list to remove completed tasks and synchronize items
-    # NOTE: This overrides any filters currently in place, and is unacceptable.
-    #       It works now because filters have not been implemented yet.
-    tasks = task_list.filter_tasks(status=['needs-action', 'in-process'])
+    tasks = items.values()
     items = sync_items(tasks)
     draw_tasks(offset=offset, selected=selected)
     write_status("Done task: %s" % task)
