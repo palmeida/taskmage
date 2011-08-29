@@ -51,7 +51,10 @@ def done_task(offset):
     sminrow, smincol = task_pad.getbegyx()
     item = offset + y - sminrow
     # Remove the task from the task list and mark it completed
-    task = items.pop(item)
+    try:
+        task = items.pop(item)
+    except KeyError:
+        return 0
     task.status = 'completed'
     task_list.write_tasks()
     # Select the next item in the list, if there is one
@@ -60,6 +63,9 @@ def done_task(offset):
     # Otherwise, select previous item, if there is one
     else:
         selected = item - 1 if item > 0 else 0
+        # Adjust offset if y is in the first row of the visible pad
+        if y == sminrow:
+            offset -= 1
     # Filter task list to remove completed tasks and synchronize items
     # NOTE: This overrides any filters currently in place, and is unacceptable.
     #       It works now because filters have not been implemented yet.
@@ -219,9 +225,6 @@ def main(stdscr):
         # Mark task done
         elif c == 'd':
             offset = done_task(offset)
-            tasks = task_list.filter_tasks(status=['needs-action', 
-                                                   'in-process'])
-            items = sync_items(tasks)
         # Quit program
         elif c == 'q':
             break
