@@ -40,8 +40,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-taskmage">
-<h1>Welcome to Taskmage&#8217;s documentation!<a class="headerlink" href="#module-taskmage" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-taskmage_curses">
+<h1>Welcome to Taskmage&#8217;s documentation!<a class="headerlink" href="#module-taskmage_curses" title="Permalink to this headline">¶</a></h1>
 <p>Contents:</p>
 <ul class="simple">
 </ul>
@@ -154,6 +154,132 @@ tasks that match all criteria.</p>
 <p>Iterate <a title="taskmage.TaskListCSV.tasks" class="reference internal" href="#taskmage.TaskListCSV.tasks"><tt class="xref docutils literal"><span class="pre">tasks</span></tt></a> and write each line to the tasks.csv file.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="taskmage_curses.add_task">
+<tt class="descclassname">taskmage_curses.</tt><tt class="descname">add_task</tt><big>(</big><big>)</big><a class="headerlink" href="#taskmage_curses.add_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a task.</p>
+<p>Create new <tt class="xref docutils literal"><span class="pre">Task</span></tt> object, append it to the task list and adjust the
+items dictionary and the task pad height accordingly. Draw the updated 
+list, with the newly added task selected.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="taskmage_curses.done_task">
+<tt class="descclassname">taskmage_curses.</tt><tt class="descname">done_task</tt><big>(</big><em>offset</em><big>)</big><a class="headerlink" href="#taskmage_curses.done_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark task done.</p>
+<p>Change selected task&#8217;s status to &#8216;completed&#8217;, remove it from the task list
+and synchronize the items dictionary.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="taskmage_curses.draw_tasks">
+<tt class="descclassname">taskmage_curses.</tt><tt class="descname">draw_tasks</tt><big>(</big><em>offset=0</em>, <em>selected=0</em><big>)</big><a class="headerlink" href="#taskmage_curses.draw_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw task list on screen, highlighting selected task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>offset</em> &#8211; Offset of the task pad.</li>
+<li><em>selected</em> &#8211; Index of selected item.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="taskmage_curses.get_input">
+<tt class="descclassname">taskmage_curses.</tt><tt class="descname">get_input</tt><big>(</big><em>prompt_string</em><big>)</big><a class="headerlink" href="#taskmage_curses.get_input" title="Permalink to this definition">¶</a></dt>
+<dd>Read input string from user.</dd></dl>
+
+<dl class="function">
+<dt id="taskmage_curses.main">
+<tt class="descclassname">taskmage_curses.</tt><tt class="descname">main</tt><big>(</big><em>stdscr</em><big>)</big><a class="headerlink" href="#taskmage_curses.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main program loop.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>stdscr</em> &#8211; Curses main screen.</td>
+</tr>
+</tbody>
+</table>
+<p>Draw initial list of tasks, wait for input and act accordingly.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="taskmage_curses.move">
+<tt class="descclassname">taskmage_curses.</tt><tt class="descname">move</tt><big>(</big><em>window</em>, <em>display_function</em>, <em>smaxrow</em>, <em>offset</em>, <em>operation_string</em><big>)</big><a class="headerlink" href="#taskmage_curses.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select previous or next item in list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>window</em> &#8211; Curses pad object where movement will occur.</li>
+<li><em>display_function</em> &#8211; Function to display the list.</li>
+<li><em>smaxrow</em> &#8211; Last row of pad being diplayed.</li>
+<li><em>offset</em> &#8211; Current offset of this pad.</li>
+<li><em>operation_string</em> &#8211; &#8216;add&#8217; or &#8216;sub&#8217;, for moving up or down, 
+respectively</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Calculate the next item index and display list, with that item selected. 
+Return the new offset.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="taskmage_curses.show_details">
+<tt class="descclassname">taskmage_curses.</tt><tt class="descname">show_details</tt><big>(</big><em>task</em><big>)</big><a class="headerlink" href="#taskmage_curses.show_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show details of selected task.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>task</em> &#8211; <tt class="xref docutils literal"><span class="pre">Task</span></tt> object corresponding to the selected item</td>
+</tr>
+</tbody>
+</table>
+<p>Write details of selected task to the details window.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="taskmage_curses.sync_items">
+<tt class="descclassname">taskmage_curses.</tt><tt class="descname">sync_items</tt><big>(</big><em>tasks</em><big>)</big><a class="headerlink" href="#taskmage_curses.sync_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synchronize items dictionary with current task list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>tasks</em> &#8211; list of <tt class="xref docutils literal"><span class="pre">Task</span></tt> objects</td>
+</tr>
+</tbody>
+</table>
+<p>Return a dictionary where keys are integers and values are <tt class="xref docutils literal"><span class="pre">Task</span></tt>
+instances.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="taskmage_curses.write_status">
+<tt class="descclassname">taskmage_curses.</tt><tt class="descname">write_status</tt><big>(</big><em>status</em><big>)</big><a class="headerlink" href="#taskmage_curses.write_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write text in status bar.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>status</em> &#8211; String of text to be written in the status bar</td>
+</tr>
+</tbody>
+</table>
+<p>After writing the provided text in the status bar, return cursor to its 
+previous location.</p>
 </dd></dl>
 
 </div>

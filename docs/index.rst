@@ -14,6 +14,9 @@ Contents:
 .. automodule:: taskmage
    :members:
 
+.. automodule:: taskmage_curses
+   :members:
+
 Indices and tables
 ==================
 
