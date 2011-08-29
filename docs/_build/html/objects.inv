@@ -1,0 +1,17 @@
+# Sphinx inventory version 1
+# Project: Taskmage
+# Version: 0.1
+taskmage mod index.html
+taskmage.TaskListCSV.tasks attribute index.html
+taskmage.TaskListCSV.filter_tasks method index.html
+taskmage.Task.status attribute index.html
+taskmage.Task class index.html
+taskmage.TaskListCSV class index.html
+taskmage.Task.uid attribute index.html
+taskmage.Task.summary attribute index.html
+taskmage.TaskListCSV.add_task method index.html
+taskmage.Task.logged_time attribute index.html
+taskmage.TaskListCSV.read_tasks method index.html
+taskmage.Task.description attribute index.html
+taskmage.TaskListCSV.write_tasks method index.html
+taskmage.Task.date attribute index.html
