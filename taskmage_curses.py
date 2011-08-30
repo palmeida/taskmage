@@ -3,6 +3,7 @@
 import curses
 import operator
 from dateutil import parser as date_parser
+from datetime import datetime
 
 from taskmage import Task, TaskListCSV
 
@@ -38,6 +39,20 @@ def add_task():
     curses.noecho()
     curses.curs_set(0)
     return offset
+
+def current_item(window, offset):
+    """Find current item.
+
+    :param offset: Current offset
+
+    Get current y and first row of window; use offset to calculate item.
+    
+    """
+    y, x = curses.getsyx()
+    sminrow, smincol = window.getbegyx()
+    item = offset + y - sminrow
+    return item
+
 
 def done_task(offset):
     """Mark task done.
@@ -155,6 +170,39 @@ def draw_tasks(offset=0, selected=0):
     show_details(items[selected])
     write_status("Task %s of %s" % (selected + 1, len(items)))
 
+
+def format_seconds(seconds):
+    """Turn seconds into human-friendly time.
+
+    :param seconds: Integer number of seconds
+
+    Take a number of seconds and return a string displaying the number of days,
+    hours, minutes and seconds it represents.
+
+    """
+    components = []
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    days, hours = divmod(hours, 24)
+    if days:
+        components.append("%s day%s" % (days, query_plural(days)))
+    if hours:
+        components.append("%s hour%s" % (hours, query_plural(hours)))
+    if minutes and not days:
+        components.append("%s minute%s" % (minutes, query_plural(minutes)))
+    if seconds and not days and not hours:
+        components.append("%s second%s" % (seconds, query_plural(seconds)))
+    display_string = ', '.join(components)
+    return display_string
+
+
+def query_plural(quantity):
+    """Return 's' if quantity larger than one."""
+    if quantity > 1:
+        return 's'
+    return ""
+
+
 def show_details(task):
     """Show details of selected task.
 
@@ -175,7 +223,7 @@ def show_details(task):
     details_win.addstr(1, 0, task.summary, curses.A_BOLD)
     details_win.addstr(2, 0, task.description)
     details_win.addstr(3, 0, task.status)
-    details_win.addstr(4, 0, str(task.logged_time))
+    details_win.addstr(4, 0, format_seconds(task.logged_time))
     details_win.refresh()
     # Move cursor to previous position
     stdscr.move(y, x)
@@ -196,6 +244,39 @@ def sync_items(tasks):
     # produce task lists in a consistent order
     items = dict(zip(id_list, sorted(tasks)))
     return items
+
+def time_task(offset):
+    """Log time to task.
+
+    :param offset: Current offset of task pad
+
+    Display time logged every second and write it to the task when finished.
+
+    """
+    item = current_item(task_pad, offset)
+    task = items[item]
+    t0 = datetime.now()
+    status = "Started at %s" % datetime.now().strftime("%H:%M")
+    write_status(status)
+    # With halfdelay on, getch returns -1 every second if no key is pressed
+    curses.halfdelay(10)
+    while 1:
+        c = stdscr.getch()
+        t1 = datetime.now()
+        logged_time = t1 - t0
+        if c == -1:
+            logged_str = str(logged_time).split('.')[0]
+            timed_status = "%s -- %s" % (status, logged_str)
+            write_status(timed_status)
+        if c == ord('t'):
+            task.logged_time += logged_time.seconds
+            task_list.write_tasks()
+            status = "Logged %s." % format_seconds(logged_time.seconds)
+            show_details(task)
+            write_status(status)
+            curses.cbreak()
+            break
+    
 
 def main(stdscr):
     """Main program loop.
@@ -222,6 +303,9 @@ def main(stdscr):
         # Mark task done
         elif c == 'd':
             offset = done_task(offset)
+        # Time task
+        elif c == 't':
+            time_task(offset)
         # Quit program
         elif c == 'q':
             break

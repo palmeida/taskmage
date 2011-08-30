@@ -163,7 +163,7 @@ class Task(object):
         self.summary = summary
         self.description = description
         self.status = status
-        self.logged_time = logged_time
+        self.logged_time = int(logged_time)
 
     def __repr__(self):
         return self.summary
