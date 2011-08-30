@@ -275,23 +275,23 @@ def time_task(offset):
             logged_str = str(logged_time).split('.')[0]
             timed_status = "%s -- %s" % (status, logged_str)
             write_status(timed_status)
-        if c == ord('a'):
+        elif c == ord('a'):
             add_str = get_input("Add time: ")
             try:
                 add = date_parser.parse(add_str)
             except ValueError:
                 write_status("Could not parse time.")
-                continue
-            # date parser creates the time on current day
-            # the following subtraction yields the desired timedelta
-            delta = add - datetime(add.year, add.month, add.day)
-            # 86400 seconds in a day
-            added_seconds = delta.days * 86400 + delta.seconds
-            task.logged_time += added_seconds
-            show_details(task)
-            # Restore halfdelay to continue timer
+            else:
+                # date parser creates the time on current day
+                # the following subtraction yields the desired timedelta
+                delta = add - datetime(add.year, add.month, add.day)
+                # 86400 seconds in a day
+                added_seconds = delta.days * 86400 + delta.seconds
+                task.logged_time += added_seconds
+                show_details(task)
+                # Restore halfdelay to continue timer
             curses.halfdelay(10)
-        if c == ord('t'):
+        elif c == ord('t'):
             task.logged_time += logged_time.seconds
             task_list.write_tasks()
             status = "Logged %s." % format_seconds(logged_time.seconds)
