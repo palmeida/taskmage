@@ -89,8 +89,15 @@ def done_task(offset):
     
 def get_input(prompt_string):
     """Read input string from user."""
+    y, x = curses.getsyx()
+    curses.echo()
+    curses.curs_set(1)
     write_status(prompt_string)
     input_string = status_bar.getstr(0, len(prompt_string))
+    curses.noecho()
+    curses.curs_set(0)
+    stdscr.move(y, x)
+    stdscr.refresh()
     return input_string
 
 def move(window, display_function, smaxrow, offset, operation_string):
@@ -268,6 +275,22 @@ def time_task(offset):
             logged_str = str(logged_time).split('.')[0]
             timed_status = "%s -- %s" % (status, logged_str)
             write_status(timed_status)
+        if c == ord('a'):
+            add_str = get_input("Add time: ")
+            try:
+                add = date_parser.parse(add_str)
+            except ValueError:
+                write_status("Could not parse time.")
+                continue
+            # date parser creates the time on current day
+            # the following subtraction yields the desired timedelta
+            delta = add - datetime(add.year, add.month, add.day)
+            # 86400 seconds in a day
+            added_seconds = delta.days * 86400 + delta.seconds
+            task.logged_time += added_seconds
+            show_details(task)
+            # Restore halfdelay to continue timer
+            curses.halfdelay(10)
         if c == ord('t'):
             task.logged_time += logged_time.seconds
             task_list.write_tasks()
