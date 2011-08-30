@@ -15,9 +15,6 @@ def add_task():
     list, with the newly added task selected.
 
     """
-    # Curses option to show what is being typed
-    curses.echo()
-    curses.curs_set(1)
     # Get input
     summary = get_input('Summary: ')
     description = get_input('Description: ')
@@ -36,8 +33,6 @@ def add_task():
     offset = max(offset, 0)
     draw_tasks(offset=offset, selected=new_index)
     write_status("Added %s" % task)
-    curses.noecho()
-    curses.curs_set(0)
     return offset
 
 def current_item(window, offset):
