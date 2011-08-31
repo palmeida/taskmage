@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import curses
+import locale
 import operator
 from dateutil import parser as date_parser
 from datetime import datetime
@@ -162,8 +163,8 @@ def draw_tasks(offset=0, selected=0):
         return 0
     for index, item in items.iteritems():
         # Justify item string so it extends to the end of the screen
-        item = str(item).ljust(screen_width - 2)
-        args = [index, 0, item]
+        item = unicode(item.summary, 'utf8').ljust(screen_width - 2)
+        args = [index, 0, item.encode('utf8')]
         if index == selected:
             args.append(curses.A_REVERSE)
         task_pad.addstr(*args)
@@ -329,6 +330,7 @@ def main(stdscr):
             break
 
 if __name__ == '__main__':
+    locale.setlocale(locale.LC_ALL, "")
     task_list = TaskListCSV()
     # Initially show only open tasks
     tasks = task_list.filter_tasks(status=['needs-action', 'in-process'])
@@ -350,7 +352,6 @@ if __name__ == '__main__':
     # Draw lines
     stdscr.hline(task_endrow + 1, 0, '=', screen_width)
     stdscr.hline(status_bar_row - 1, 0, '=', screen_width)
-    stdscr.vline(0, screen_width - 1, '|', task_endrow + 1)
     # Set cursor invisible
     curses.curs_set(0)
     # Run main program loop
