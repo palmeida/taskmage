@@ -29,7 +29,8 @@ Taskmage Keys
 
 Once you start the timer:
 
-* :kbd:`a` - Add arbitrary time to current timer
+* :kbd:`+` - Add arbitrary time to current task
+* :kbd:`-` - Subtract arbitrary time from current task
 
 Taskmage Actions
 ================
