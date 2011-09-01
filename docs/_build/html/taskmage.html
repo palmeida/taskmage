@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Taskmage core &mdash; Taskmage v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Taskmage v0.1 documentation" href="index.html" />
+    <link rel="up" title="Code documentation" href="codedocs.html" />
+    <link rel="next" title="Taskmage curses" href="taskmage_curses.html" />
+    <link rel="prev" title="Code documentation" href="codedocs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="taskmage_curses.html" title="Taskmage curses"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="codedocs.html" title="Code documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Taskmage v0.1 documentation</a> &raquo;</li>
+          <li><a href="codedocs.html" accesskey="U">Code documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-taskmage">
+<h1>Taskmage core<a class="headerlink" href="#module-taskmage" title="Permalink to this headline">¶</a></h1>
+<p>A module that manages task lists.</p>
+<p>Exported Classes:</p>
+<p>TaskListCSV &#8211; Manages task lists with a .csv file backend.</p>
+<p>Task &#8211; Defines task properties.</p>
+<dl class="class">
+<dt id="taskmage.Task">
+<em class="property">class </em><tt class="descclassname">taskmage.</tt><tt class="descname">Task</tt><big>(</big><em>uid=None</em>, <em>summary=None</em>, <em>description=None</em>, <em>date=None</em>, <em>status='needs-action'</em>, <em>logged_time=0</em><big>)</big><a class="headerlink" href="#taskmage.Task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define task properties.</p>
+<p>Data attributes:</p>
+<dl class="attribute">
+<dt id="taskmage.Task.uid">
+<tt class="descname">uid</tt><a class="headerlink" href="#taskmage.Task.uid" title="Permalink to this definition">¶</a></dt>
+<dd>Unique identifier for the task.</dd></dl>
+
+<dl class="attribute">
+<dt id="taskmage.Task.summary">
+<tt class="descname">summary</tt><a class="headerlink" href="#taskmage.Task.summary" title="Permalink to this definition">¶</a></dt>
+<dd>Summary of the task.</dd></dl>
+
+<dl class="attribute">
+<dt id="taskmage.Task.description">
+<tt class="descname">description</tt><a class="headerlink" href="#taskmage.Task.description" title="Permalink to this definition">¶</a></dt>
+<dd>Longer description of the task.</dd></dl>
+
+<dl class="attribute">
+<dt id="taskmage.Task.date">
+<tt class="descname">date</tt><a class="headerlink" href="#taskmage.Task.date" title="Permalink to this definition">¶</a></dt>
+<dd>Creation date of the task.</dd></dl>
+
+<dl class="attribute">
+<dt id="taskmage.Task.status">
+<tt class="descname">status</tt><a class="headerlink" href="#taskmage.Task.status" title="Permalink to this definition">¶</a></dt>
+<dd>Status of the task; can be one of &#8216;needs-action&#8217;, &#8216;in-process&#8217;,
+&#8216;completed&#8217;, &#8216;cancelled&#8217;. Default for new tasks is &#8216;needs-action&#8217;.</dd></dl>
+
+<dl class="attribute">
+<dt id="taskmage.Task.logged_time">
+<tt class="descname">logged_time</tt><a class="headerlink" href="#taskmage.Task.logged_time" title="Permalink to this definition">¶</a></dt>
+<dd>Time, in seconds, that has been spent on the task.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="taskmage.TaskListCSV">
+<em class="property">class </em><tt class="descclassname">taskmage.</tt><tt class="descname">TaskListCSV</tt><a class="headerlink" href="#taskmage.TaskListCSV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage task list with a .csv file backend.</p>
+<p>Data attributes:</p>
+<dl class="attribute">
+<dt id="taskmage.TaskListCSV.tasks">
+<tt class="descname">tasks</tt><a class="headerlink" href="#taskmage.TaskListCSV.tasks" title="Permalink to this definition">¶</a></dt>
+<dd>A list of Task objects.</dd></dl>
+
+<p>Public functions:</p>
+<p>add_task &#8211; Add a Task object to the task list.</p>
+<p>filter_tasks &#8211; Return a list of tasks that match certain criteria.</p>
+<p>read_tasks &#8211; Read tasks from .csv file.</p>
+<p>write_tasks &#8211; Write tasks to .csv file.</p>
+<dl class="method">
+<dt id="taskmage.TaskListCSV.add_task">
+<tt class="descname">add_task</tt><big>(</big><em>task</em><big>)</big><a class="headerlink" href="#taskmage.TaskListCSV.add_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a Task object to the task list.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>task</em> &#8211; Task object to append. Currently, no check is made to 
+ensure this is indeed a Task instance.</td>
+</tr>
+</tbody>
+</table>
+<p>Append task to <a title="taskmage.TaskListCSV.tasks" class="reference internal" href="#taskmage.TaskListCSV.tasks"><tt class="xref docutils literal"><span class="pre">tasks</span></tt></a> and return it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="taskmage.TaskListCSV.filter_tasks">
+<tt class="descname">filter_tasks</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#taskmage.TaskListCSV.filter_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of tasks that match certain criteria.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>**kwargs</em> &#8211; A dictionary whose keys are <a title="taskmage.Task" class="reference internal" href="#taskmage.Task"><tt class="xref docutils literal"><span class="pre">Task</span></tt></a> object
+attributes and whose values are lists of desired 
+values for each attribute. For example:</td>
+</tr>
+</tbody>
+</table>
+<p>{status: [&#8216;needs-action&#8217;, &#8216;in-process&#8217;]}</p>
+<p>Iterate attributes in **kwargs; for each attribute, iterate
+tasks and append current task to a set if the task attribute is  
+included in the filter values for that attribute. Return a list of 
+tasks that match all criteria.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="taskmage.TaskListCSV.read_tasks">
+<tt class="descname">read_tasks</tt><big>(</big><big>)</big><a class="headerlink" href="#taskmage.TaskListCSV.read_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read tasks from .csv file.</p>
+<p>For each line in the tasks.csv file, split its contents and create a
+<a title="taskmage.Task" class="reference internal" href="#taskmage.Task"><tt class="xref docutils literal"><span class="pre">Task</span></tt></a> object. Append each object to <a title="taskmage.TaskListCSV.tasks" class="reference internal" href="#taskmage.TaskListCSV.tasks"><tt class="xref docutils literal"><span class="pre">tasks</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="taskmage.TaskListCSV.write_tasks">
+<tt class="descname">write_tasks</tt><big>(</big><big>)</big><a class="headerlink" href="#taskmage.TaskListCSV.write_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write tasks to .csv file.</p>
+<p>Iterate <a title="taskmage.TaskListCSV.tasks" class="reference internal" href="#taskmage.TaskListCSV.tasks"><tt class="xref docutils literal"><span class="pre">tasks</span></tt></a> and write each line to the tasks.csv file.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="codedocs.html"
+                                  title="previous chapter">Code documentation</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="taskmage_curses.html"
+                                  title="next chapter">Taskmage curses</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/taskmage.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="taskmage_curses.html" title="Taskmage curses"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="codedocs.html" title="Code documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">Taskmage v0.1 documentation</a> &raquo;</li>
+          <li><a href="codedocs.html" >Code documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, Paulo Almeida.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>

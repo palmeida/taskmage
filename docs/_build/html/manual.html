@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Taskmage Manual &mdash; Taskmage v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Taskmage v0.1 documentation" href="index.html" />
+    <link rel="next" title="Code documentation" href="codedocs.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="codedocs.html" title="Code documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Taskmage v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="taskmage-manual">
+<h1>Taskmage Manual<a class="headerlink" href="#taskmage-manual" title="Permalink to this headline">¶</a></h1>
+<p>At the moment, taskmage only has a text mode interface. This document describes how it works.</p>
+<div class="section" id="starting-taskmage">
+<h2>Starting Taskmage<a class="headerlink" href="#starting-taskmage" title="Permalink to this headline">¶</a></h2>
+<p>When you first start taskmage, by entering <strong>taskmage</strong> in a terminal, you see a blank screen divided in <strong>three sections</strong>. The top section is a <strong>list of tasks</strong>, the middle section contains the <strong>selected task&#8217;s details</strong>, and the bottom line is the <strong>status bar</strong>, where notifications will appear and text will be entered.</p>
+</div>
+<div class="section" id="taskmage-keys">
+<h2>Taskmage Keys<a class="headerlink" href="#taskmage-keys" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">j</span></tt> - Move down</li>
+<li><tt class="docutils literal"><span class="pre">k</span></tt> - Move up</li>
+<li><tt class="docutils literal"><span class="pre">a</span></tt> - Add task</li>
+<li><tt class="docutils literal"><span class="pre">d</span></tt> - Mark task done</li>
+<li><tt class="docutils literal"><span class="pre">t</span></tt> - Start/stop task timer</li>
+<li><tt class="docutils literal"><span class="pre">q</span></tt> - Quit taskmage (doesn&#8217;t work while <a class="reference internal" href="#manual-taskmage-actions-timing"><em>timing a task</em></a>)</li>
+</ul>
+<p>Once you start the timer:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">a</span></tt> - Add arbitrary time to current timer</li>
+</ul>
+</div>
+<div class="section" id="taskmage-actions">
+<h2>Taskmage Actions<a class="headerlink" href="#taskmage-actions" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Adding tasks</strong></dt>
+<dd>After you press <tt class="docutils literal"><span class="pre">a</span></tt>, you will be prompted for a summary and a description of the new task. Text editing is very limited; you can use the backspace key to delete and the Enter key when you are done.</dd>
+<dt><strong>Marking tasks done</strong></dt>
+<dd>Once you mark a task done, by pressing <tt class="docutils literal"><span class="pre">d</span></tt>, the task is removed from the list and its &#8216;completed&#8217; status is written to the backend.</dd>
+</dl>
+<dl class="docutils" id="manual-taskmage-actions-timing">
+<dt><strong>Timing tasks</strong></dt>
+<dd><p class="first">Pressing <tt class="docutils literal"><span class="pre">t</span></tt> starts a timer on the selected task, updating every second. A second keypress on <tt class="docutils literal"><span class="pre">t</span></tt> stops the timer and writes the logged time to the backend.</p>
+<p>When the timer is ticking, you can press <tt class="docutils literal"><span class="pre">a</span></tt> to add an arbitrary amount of time to the current task. Format of the added time is flexible, as allowed by the <a class="reference external" href="http://labix.org/python-dateutil">python-dateutil</a> parse function (without the fuzzy parameter).</p>
+<p>Examples:</p>
+<ul class="simple">
+<li>2h5m - 2 hours and 5 minutes</li>
+<li>1:30 - 1 hour and 30 minutes</li>
+</ul>
+<p class="last">If the parser cannot understand your input, a message will appear on the status bar indicating that. Whether the addition was successful or not, the timer will keep ticking, until you press <tt class="docutils literal"><span class="pre">t</span></tt>.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="#">Taskmage Manual</a><ul>
+<li><a class="reference external" href="#starting-taskmage">Starting Taskmage</a></li>
+<li><a class="reference external" href="#taskmage-keys">Taskmage Keys</a></li>
+<li><a class="reference external" href="#taskmage-actions">Taskmage Actions</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="introduction.html"
+                                  title="previous chapter">Introduction</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="codedocs.html"
+                                  title="next chapter">Code documentation</a></p>
+            <h3>This Page</h3>
+            <ul class="this-page-menu">
+              <li><a href="_sources/manual.txt"
+                     rel="nofollow">Show Source</a></li>
+            </ul>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="codedocs.html" title="Code documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">Taskmage v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2011, Paulo Almeida.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.6.
+    </div>
+  </body>
+</html>
