@@ -24,8 +24,7 @@ Taskmage Keys
 * :kbd:`a` - Add task
 * :kbd:`d` - Mark task done
 * :kbd:`t` - Start/stop task timer
-* :kbd:`q` - Quit taskmage (doesn't work while :ref:`timing a task 
-  <manual-taskmage-actions-timing>`)
+* :kbd:`q` - Quit taskmage 
 
 Once you start the timer:
 
@@ -44,8 +43,6 @@ Taskmage Actions
 **Marking tasks done**
    Once you mark a task done, by pressing :kbd:`d`, the task is removed from 
    the list and its 'completed' status is written to the backend.
-
-.. _manual-taskmage-actions-timing:
 
 **Timing tasks**
    Pressing :kbd:`t` starts a timer on the selected task, updating every 

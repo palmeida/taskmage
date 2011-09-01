@@ -84,6 +84,13 @@ def done_task(offset):
     return offset
     
 def edit_time(task, operation_string):
+    """Increase or decrease logged time for a task.
+
+    :param task: class:`Task` object.
+    :param operation_string: a string, 'add' or 'sub', to increase or decrease
+                             logged time, respectively.
+
+    """
     operation = getattr(operator, operation_string)
     input_str = get_input("%s time: " % operation_string.title())
     try:
@@ -101,8 +108,6 @@ def edit_time(task, operation_string):
         task.logged_time = operation(task.logged_time, delta_seconds)
         task.logged_time = max(0, task.logged_time)
         show_details(task)
-    # Restore halfdelay to continue timer
-    curses.halfdelay(10)
 
 def get_input(prompt_string):
     """Read input string from user."""
@@ -253,6 +258,18 @@ def show_details(task):
     stdscr.move(y, x)
     stdscr.refresh()
 
+def stop_timer(task, logged_time):
+    """Stop task timer.
+
+    :param task: class:`Task` object.
+    :param logged_time: Number of seconds elapsed since timer started.
+
+    """
+    task.logged_time += logged_time.seconds
+    task_list.write_tasks()
+    show_details(task)
+    status = "Logged %s." % format_seconds(logged_time.seconds)
+    write_status(status)
 
 def sync_items(tasks):
     """Synchronize items dictionary with current task list.
@@ -294,15 +311,20 @@ def time_task(offset):
             write_status(timed_status)
         elif c == ord('+'):
             edit_time(task, 'add')
+            # Restore halfdelay to continue timer
+            curses.halfdelay(10)
         elif c == ord('-'):
             edit_time(task, 'sub')
+            # Restore halfdelay to continue timer
+            curses.halfdelay(10)
         elif c == ord('t'):
-            task.logged_time += logged_time.seconds
-            task_list.write_tasks()
-            status = "Logged %s." % format_seconds(logged_time.seconds)
-            show_details(task)
-            write_status(status)
+            stop_timer(task, logged_time)
             curses.cbreak()
+            break
+        elif c == ord('q'):
+            stop_timer(task, logged_time)
+            # Pass 'q' to next getch in the main loop, so we can quit from here
+            curses.ungetch('q')
             break
     
 
