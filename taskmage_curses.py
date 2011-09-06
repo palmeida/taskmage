@@ -127,9 +127,9 @@ def move(window, display_function, smaxrow, offset, operation_string):
     
     :param window: Curses pad object where movement will occur.
     :param display_function: Function to display the list.
-    :param smaxrow: Last row of pad being diplayed.
+    :param smaxrow: Last row of pad being displayed.
     :param offset: Current offset of this pad.
-    :param operation_string: 'add' or 'sub', for moving up or down, 
+    :param operation_string: 'add' or 'sub', for moving down or up, 
                              respectively
 
     Calculate the next item index and display list, with that item selected. 

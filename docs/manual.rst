@@ -49,10 +49,10 @@ Taskmage Actions
    second. A second keypress on :kbd:`t` stops the timer and writes the logged 
    time to the backend.
 
-   When the timer is ticking, you can press :kbd:`a` to add an arbitrary 
-   amount of time to the current task. Format of the added time is flexible, as
-   allowed by the `python-dateutil`_ parse function (without the fuzzy 
-   parameter).
+   When the timer is ticking, you can press :kbd:`+` or :kbd:`-` to add or 
+   subtract an arbitrary amount of time to the current task. Format of the 
+   added time is flexible, as allowed by the `python-dateutil`_ parse function 
+   (without the fuzzy parameter).
 
    Examples:
 
